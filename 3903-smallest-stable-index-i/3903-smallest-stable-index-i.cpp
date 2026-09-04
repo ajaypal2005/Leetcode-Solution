@@ -1,23 +1,24 @@
+//brute-force solution
 class Solution {
 public:
     int firstStableIndex(vector<int>& nums, int k) {
         int n = nums.size();
 
-        // suffixMin[i] = minimum from index i to n - 1
-        vector<int> suffixMin(n);
-        suffixMin[n - 1] = nums[n - 1];
-
-        for (int i = n - 2; i >= 0; i--) {
-            suffixMin[i] = min(nums[i], suffixMin[i + 1]);
-        }
-
-        // Maximum from index 0 to i
-        int prefixMax = nums[0];
-
         for (int i = 0; i < n; i++) {
-            prefixMax = max(prefixMax, nums[i]);
+            int prefixMax = nums[0];
+            int suffixMin = nums[i];
 
-            if (prefixMax - suffixMin[i] <= k) {
+            // Find maximum from index 0 to i
+            for (int j = 0; j <= i; j++) {
+                prefixMax = max(prefixMax, nums[j]);
+            }
+
+            // Find minimum from index i to n - 1
+            for (int j = i; j < n; j++) {
+                suffixMin = min(suffixMin, nums[j]);
+            }
+
+            if (prefixMax - suffixMin <= k) {
                 return i;
             }
         }
