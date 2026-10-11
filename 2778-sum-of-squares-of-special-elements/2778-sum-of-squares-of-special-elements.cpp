@@ -4,9 +4,12 @@ public:
         int n = nums.size();
         int ans = 0;
 
-        for (int i = 1; i <= n; i++) {
+        for (int i = 1; i * i <= n; i++) {
             if (n % i == 0) {
                 ans += nums[i - 1] * nums[i - 1];
+
+                if (i != n / i)
+                    ans += nums[n / i - 1] * nums[n / i - 1];
             }
         }
 
